@@ -2,7 +2,7 @@ import axios from "axios";
 import { Depth, KLine, MarketData, Ticker, Trade } from "./types";
 import { allSymbols } from "./consts";
 
-const BASE_URL = "https://proxy.ritikboradev.com/api/v1";
+const BASE_URL = "/api/v1";
 const MARKET_URL = "https://price-indexer.workers.madlads.com/?ids=solana,usd-coin,pyth-network,jito-governance-token,tether,bonk,helium,helium-mobile,bitcoin,ethereum,dogwifcoin,jupiter-exchange-solana,parcl,render-token,sharky-fi,tensor,wormhole,wen-4,cat-in-a-dogs-world,book-of-meme,raydium,hivemapper,kamino,drift-protocol,nyan,jeo-boden,habibi-sol,io,zeta,shuffle-2,pepe,shiba-inu,chainlink,uniswap,ondo-finance,holograph,starknet,matic-network,fantom,mon-protocol,blur,worldcoin-wld,polyhedra-network,unagi-token,layerzero";
 
 export async function getTicker(market: string): Promise<Ticker> {
