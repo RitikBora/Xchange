@@ -64,19 +64,19 @@ export const MarketTable= () =>
         <table className="w-full border-separate border-spacing-y-4">
             <thead>
                 <tr>
-                <th className="px-2 py-3 w-1/3 text-left text-5xl font-normal text-baseTextMedEmphasis">
+                <th className="px-2 py-3 w-1/3 text-left text-5xl font-normal" style={{ color: "var(--text-med-emphasis)" }}>
                     <div className="flex items-center gap-1 select-none">
                         Name
                         <span className="w-[16px]"></span>
                     </div>
                 </th>
-                 <th className="px-2 py-3 w-1/6 text-left text-xl font-normal text-baseTextMedEmphasis ">
+                 <th className="px-2 py-3 w-1/6 text-left text-xl font-normal" style={{ color: "var(--text-med-emphasis)" }}>
                         <div className="flex items-center gap-1 cursor-pointer select-none">
                             Price
                             <span className="w-[16px]"></span>
                         </div>
                     </th>
-                    <th className="px-2 py-3 w-1/6 text-left text-xl font-normal text-baseTextMedEmphasis ">
+                    <th className="px-2 py-3 w-1/6 text-left text-xl font-normal" style={{ color: "var(--text-med-emphasis)" }}>
                         <div className="flex items-center gap-1 cursor-pointer select-none">
                             Market Cap
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-down h-4 w-4">
@@ -84,13 +84,13 @@ export const MarketTable= () =>
                             </svg>
                         </div>
                     </th>
-                    <th className="px-2 py-3 w-1/6 text-left text-xl font-normal text-baseTextMedEmphasis ">
+                    <th className="px-2 py-3 w-1/6 text-left text-xl font-normal" style={{ color: "var(--text-med-emphasis)" }}>
                         <div className="flex items-center gap-1 cursor-pointer select-none">
                             24h Volume
                             <span className="w-[16px]"></span>
                         </div>
                     </th>
-                    <th className="px-2 py-3 w-1/6 text-left text-xl font-normal text-baseTextMedEmphasis ">
+                    <th className="px-2 py-3 w-1/6 text-left text-xl font-normal" style={{ color: "var(--text-med-emphasis)" }}>
                         <div className="flex items-center gap-1 cursor-pointer select-none">
                             24h Change
                             <span className="w-[16px]"></span>
@@ -119,37 +119,43 @@ export const MarketTable= () =>
 
 function MarketRow({price , symbol , name , market_cap , image , priceChangePercent , quoteVolume , marketSymbol , router} : {price : string , symbol : string , name : string  , market_cap : number  , image : string , priceChangePercent : string , quoteVolume: string , marketSymbol : string , router : any}) {
     return (
-        <tr className="cursor-pointer border-t border-baseBorderLight hover:bg-slate-800" onClick={() => router.push(`/trade/${marketSymbol}`) }>
+        <tr
+            className="cursor-pointer transition"
+            style={{ borderTop: "1px solid var(--border-hairline)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--surface-hover)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            onClick={() => router.push(`/trade/${marketSymbol}`) }
+        >
                         <td className="px-2 py-3 ">
                             <div className="flex shrink">
-                                <div className="flex items-center undefined">
-                                    <div className="relative flex-none overflow-hidden rounded-full border border-baseBorderMed w-10 h-10" >
+                                <div className="flex items-center">
+                                    <div className="relative flex-none overflow-hidden rounded-full w-10 h-10" style={{ border: "1px solid var(--border-med)" }}>
                                         <div className="relative">
                                             <img alt={`${name} Logo`} loading="lazy" width="40" height="40" decoding="async" data-nimg="1" className=""  src={image} />
                                         </div>
                                     </div>
                                     <div className="ml-4 flex flex-col">
-                                        <p className="whitespace-nowrap text-base font-medium text-baseTextHighEmphasis">{name}</p>
+                                        <p className="whitespace-nowrap text-base font-medium" style={{ color: "var(--text-high-emphasis)" }}>{name}</p>
                                     <div className="flex items-center justify-start flex-row gap-2">
-                                        <p className="flex-medium text-left text-xs leading-5 text-baseTextMedEmphasis">{symbol.toUpperCase()}</p>
+                                        <p className="flex-medium text-left text-xs leading-5" style={{ color: "var(--text-med-emphasis)" }}>{symbol.toUpperCase()}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </td>
                     <td className="px-2 py-3 ">
-                        <p className="text-base font-medium tabular-nums">${price}</p>
+                        <p className="text-base font-medium tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>${price}</p>
                     </td>
                     <td className="px-2 py-3 ">
-                        <p className="text-base font-medium tabular-nums">{formatMarketCap(market_cap)}</p>
+                        <p className="text-base font-medium tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>{formatMarketCap(market_cap)}</p>
                     </td>
                     <td className="px-2 py-3 ">
-                        <p className="text-base font-medium tabular-nums">{formatMarketCap(Number(quoteVolume))}</p>
+                        <p className="text-base font-medium tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>{formatMarketCap(Number(quoteVolume))}</p>
                     </td>
                     <td className="px-2 py-3 ">
                         <PricePercent priceChangePercent={priceChangePercent}/>
                     </td>
-                   
+
                 </tr>
     )
 }
@@ -160,24 +166,24 @@ function SkeletonRow() {
         <tr>
             <td className="px-2 py-3">
                 <div className="flex items-center">
-                    <Skeleton className="rounded-full bg-neutral-700 animate-pulse w-10 h-10 shrink-0" />
+                    <Skeleton className="rounded-full animate-pulse w-10 h-10 shrink-0" style={{ background: "var(--surface-elevated)" }} />
                     <div className="ml-4 flex flex-col gap-2">
-                        <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-24 h-4" />
-                        <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-12 h-3" />
+                        <Skeleton className="rounded-md animate-pulse w-24 h-4" style={{ background: "var(--surface-elevated)" }} />
+                        <Skeleton className="rounded-md animate-pulse w-12 h-3" style={{ background: "var(--surface-elevated)" }} />
                     </div>
                 </div>
             </td>
             <td className="px-2 py-3">
-                <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-16 h-4" />
+                <Skeleton className="rounded-md animate-pulse w-16 h-4" style={{ background: "var(--surface-elevated)" }} />
             </td>
             <td className="px-2 py-3">
-                <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-16 h-4" />
+                <Skeleton className="rounded-md animate-pulse w-16 h-4" style={{ background: "var(--surface-elevated)" }} />
             </td>
             <td className="px-2 py-3">
-                <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-16 h-4" />
+                <Skeleton className="rounded-md animate-pulse w-16 h-4" style={{ background: "var(--surface-elevated)" }} />
             </td>
             <td className="px-2 py-3">
-                <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-14 h-4" />
+                <Skeleton className="rounded-md animate-pulse w-14 h-4" style={{ background: "var(--surface-elevated)" }} />
             </td>
         </tr>
     );
@@ -209,7 +215,7 @@ function PricePercent({priceChangePercent} : {priceChangePercent : string})
     let number = parseFloat(priceChangePercent); // Convert string to number
     let percent = (number * 100).toFixed(2) + '%';
 
-    return number < 0 ?  <p className="text-base font-medium tabular-nums text-redText">{percent}</p> :
-        <p className="text-base font-medium tabular-nums text-greenText">+{percent}</p>
+    return number < 0 ?  <p className="text-base font-medium tabular-nums" style={{ color: "var(--sell)" }}>{percent}</p> :
+        <p className="text-base font-medium tabular-nums" style={{ color: "var(--buy)" }}>+{percent}</p>
 }
 

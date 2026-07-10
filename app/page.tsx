@@ -3,7 +3,7 @@
 import { Button } from "./components/core/Button";
 import { useRouter } from "next/navigation";
 import { motion, useAnimation } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CountUp } from "./components/landing/CountUp";
 import { LiveChartPreview } from "./components/landing/LiveChartPreview";
 import { TickerMarquee } from "./components/landing/TickerMarquee";
@@ -15,8 +15,24 @@ const reveal = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
 };
 
+type PendingReveal = "animate" | "snap" | "hidden";
+
 const Reveal = ({ children, delay = 0, className, style }: { children: React.ReactNode; delay?: number; className?: string; style?: React.CSSProperties }) => {
   const controls = useAnimation();
+  const mountedRef = useRef(false);
+  const pendingRef = useRef<PendingReveal | null>(null);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    if (pendingRef.current === "animate") controls.start("visible");
+    else if (pendingRef.current === "snap") controls.set("visible");
+    else if (pendingRef.current === "hidden") controls.set("hidden");
+    pendingRef.current = null;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, [controls]);
+
   return (
     <motion.div
       className={className}
@@ -27,13 +43,19 @@ const Reveal = ({ children, delay = 0, className, style }: { children: React.Rea
       transition={{ delay }}
       viewport={{ amount: 0.15 }}
       onViewportEnter={() => {
-        if (getScrollDirection() === "down") {
-          controls.start("visible");
-        } else {
-          controls.set("visible");
+        const wantAnimate = getScrollDirection() === "down";
+        if (!mountedRef.current) {
+          pendingRef.current = wantAnimate ? "animate" : "snap";
+          return;
         }
+        if (wantAnimate) controls.start("visible");
+        else controls.set("visible");
       }}
       onViewportLeave={() => {
+        if (!mountedRef.current) {
+          pendingRef.current = "hidden";
+          return;
+        }
         controls.set("hidden");
       }}
     >
