@@ -94,19 +94,17 @@ const Hero = () => {
       <div className="grid items-center" style={{ gridTemplateColumns: "0.8fr 1.0fr", gap: "var(--lp-hero-gap)" }}>
         <div>
           <h1 className="m-0 font-extrabold" style={{ fontSize: "var(--lp-display)", lineHeight: 0.98, letterSpacing: "-0.03em" }}>
-            <Reveal className="block" style={{ color: "var(--text-high-emphasis)" }} delay={0.05}>Look First.</Reveal>
-            <Reveal className="block" style={{ color: "var(--text-high-emphasis)" }} delay={0.18}>Then <span style={{ color: "var(--accent)" }}>Leap.</span></Reveal>
+            <div className="block" style={{ color: "var(--text-high-emphasis)" }}>Look First.</div>
+            <div className="block" style={{ color: "var(--text-high-emphasis)" }}>Then <span style={{ color: "var(--accent)" }}>Leap.</span></div>
           </h1>
-          <Reveal delay={0.3}>
-            <p className="mt-6 max-w-[440px] text-lg leading-relaxed" style={{ color: "var(--text-med-emphasis)" }}>
-              The best trades require research, then commitment. Screen every market, read the book, watch the chart — then act with conviction.
-            </p>
-          </Reveal>
-          <Reveal delay={0.42} className="flex flex-wrap gap-3.5 mt-9">
+          <p className="mt-6 max-w-[440px] text-lg leading-relaxed" style={{ color: "var(--text-med-emphasis)" }}>
+            The best trades require research, then commitment. Screen every market, read the book, watch the chart — then act with conviction.
+          </p>
+          <div className="flex flex-wrap gap-3.5 mt-9">
             <Button variant="success" size="lg" onClick={() => router.push("/markets")}>Explore Markets</Button>
             <Button variant="primary" size="lg" onClick={() => router.push("/trade/SOL_USDC")}>Trade SOL / USDC</Button>
-          </Reveal>
-          <Reveal delay={0.54} className="flex flex-wrap gap-8 mt-11">
+          </div>
+          <div className="flex flex-wrap gap-8 mt-11">
             <div>
               <div className="text-2xl font-bold tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>$79.0B</div>
               <div className="text-xs" style={{ color: "var(--text-low-emphasis)" }}>24h volume</div>
@@ -121,11 +119,11 @@ const Hero = () => {
               <div className="text-2xl font-bold tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>2.1M</div>
               <div className="text-xs" style={{ color: "var(--text-low-emphasis)" }}>Traders</div>
             </div>
-          </Reveal>
+          </div>
         </div>
-        <Reveal delay={0.24}>
+        <div>
           <LiveChartPreview />
-        </Reveal>
+        </div>
       </div>
     </section>
   );
