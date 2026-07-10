@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useTheme } from "@/app/components/theme-provider";
 import { getTicker } from "@/app/utils/httpClient";
 
@@ -9,6 +10,7 @@ type Candle = { o: number; h: number; l: number; c: number };
 const SYNC_INTERVAL_MS = 5 * 60 * 1000;
 
 export const LiveChartPreview = () => {
+    const router = useRouter();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [price, setPrice] = useState<number | null>(null);
     const [change, setChange] = useState<number | null>(null);
@@ -201,7 +203,11 @@ export const LiveChartPreview = () => {
     }, []);
 
     return (
-        <div style={{ border: "1px solid var(--border-hairline)", borderRadius: 14, background: "var(--surface-card)", overflow: "hidden", boxShadow: "var(--shadow-overlay)" }}>
+        <div
+            onClick={() => router.push("/trade/SOL_USDC")}
+            className="cursor-pointer transition-transform hover:-translate-y-0.5"
+            style={{ border: "1px solid var(--border-hairline)", borderRadius: 14, background: "var(--surface-card)", overflow: "hidden", boxShadow: "var(--shadow-overlay)" }}
+        >
             <div className="flex items-center justify-between px-4 py-3.5" style={{ borderBottom: "1px solid var(--border-hairline)" }}>
                 <div className="flex items-center gap-2.5">
                     <img src="/sol.webp" width={26} height={26} className="rounded-full" alt="SOL" />
