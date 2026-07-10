@@ -27,18 +27,18 @@ function Ask({price, quantity, total, maxTotal}: {price: string, quantity: strin
         left: 0,
         width: `${(100 * total) / maxTotal}%`,
         height: "100%",
-        background: "rgba(228, 75, 68, 0.325)",
+        background: "var(--sell-depth)",
         transition: "width 0.3s ease-in-out",
         }}
     ></div>
-    <div className="flex justify-between text-xs w-full">
-        <div className="text-redText">
+    <div className="flex justify-between text-xs w-full relative">
+        <div style={{ color: "var(--sell)" }}>
             {price}
         </div>
-        <div className="text-baseTextHighEmphasis/80">
+        <div style={{ color: "var(--text-high-emphasis)" }}>
             {quantity}
         </div>
-        <div className="text-baseTextHighEmphasis/80">
+        <div style={{ color: "var(--text-high-emphasis)" }}>
             {total?.toFixed(2)}
         </div>
     </div>

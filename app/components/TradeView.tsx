@@ -13,6 +13,8 @@ export function TradeView({
   const chartRef = useRef<HTMLDivElement>(null);
   const chartManagerRef = useRef<ChartManager>(null);
   const { theme } = useTheme();
+  const themeRef = useRef(theme);
+  themeRef.current = theme;
 
   useEffect(() => {
     const init = async () => {
@@ -25,8 +27,7 @@ export function TradeView({
         if (chartManagerRef.current) {
           chartManagerRef.current.destroy();
         }
-        console.log(klineData)
-        const isDark = theme === "dark";
+        const isDark = themeRef.current === "dark";
         const chartManager = new ChartManager(
           chartRef.current,
           [
@@ -48,7 +49,15 @@ export function TradeView({
       }
     };
     init();
-  }, [market, chartRef, theme]);
+  }, [market, chartRef]);
+
+  useEffect(() => {
+    const isDark = theme === "dark";
+    chartManagerRef.current?.applyTheme({
+      background: isDark ? "#0e0f14" : "#ffffff",
+      color: isDark ? "white" : "#0f172a",
+    });
+  }, [theme]);
 
   return (
     <>

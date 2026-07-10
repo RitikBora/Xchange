@@ -54,7 +54,7 @@ export class ChartManager {
           type: ColorType.Solid,
           color: layout.background,
         },
-        textColor: "white",
+        textColor: layout.color,
       },
     });
     this.chart = chart;
@@ -83,6 +83,17 @@ export class ChartManager {
     if (updatedPrice.newCandleInitiated) {
       this.lastUpdateTime = updatedPrice.time;
     }
+  }
+  public applyTheme(layout: { background: string; color: string }) {
+    this.chart.applyOptions({
+      layout: {
+        background: {
+          type: ColorType.Solid,
+          color: layout.background,
+        },
+        textColor: layout.color,
+      },
+    });
   }
   public destroy() {
     this.chart.remove();

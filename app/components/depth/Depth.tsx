@@ -120,23 +120,33 @@ export function Depth({ market }: {market: string}) {
     return (
         <div>
             <div className="flex flex-col h-full ">
-            <div className="px-3 ">
-                <div className="flex flex-row flex-0 gap-5 undefined">
+            <div className="px-3 " style={{ borderBottom: "1px solid var(--border-hairline)" }}>
+                <div className="flex flex-row flex-0 gap-5">
                     <div className="flex flex-col cursor-pointer justify-center py-2">
-                        <div className={`text-sm font-medium py-1 border-b-2 hover:border-baseTextHighEmphasis hover:text-baseTextHighEmphasis ${subSection === 'Book' ? "border-accentBlue text-baseTextHighEmphasis" : "border-transparent text-baseTextMedEmphasis"}`}
+                        <div
+                            className="text-sm font-medium py-1"
+                            style={{
+                                borderBottom: `2px solid ${subSection === 'Book' ? "var(--accent-active)" : "transparent"}`,
+                                color: subSection === 'Book' ? "var(--text-high-emphasis)" : "var(--text-med-emphasis)",
+                            }}
                             onClick={() => setSubSection('Book')}
                         >Book</div>
                     </div>
                     <div className="flex flex-col cursor-pointer justify-center py-2">
-                        <div className={`text-sm font-medium py-1 border-b-2  hover:border-baseTextHighEmphasis hover:text-baseTextHighEmphasis ${subSection === 'Trades' ? "border-accentBlue text-baseTextHighEmphasis" : "border-transparent text-baseTextMedEmphasis"}`}
+                        <div
+                            className="text-sm font-medium py-1"
+                            style={{
+                                borderBottom: `2px solid ${subSection === 'Trades' ? "var(--accent-active)" : "transparent"}`,
+                                color: subSection === 'Trades' ? "var(--text-high-emphasis)" : "var(--text-med-emphasis)",
+                            }}
                             onClick={() => setSubSection('Trades')}
                         >Trades</div>
                     </div>
                 </div>
             </div>
-            <div>
-                {subSection === 'Book' ?  <BidAskTable asks={asks} bids={bids} price={price}/> 
-                : 
+            <div className="px-3 pt-2">
+                {subSection === 'Book' ?  <BidAskTable asks={asks} bids={bids} price={price}/>
+                :
                 <Trades trades={latestTrades}/>}
             </div>
         </div>
@@ -147,14 +157,14 @@ function BidAskTable({asks , price , bids} : {asks : [string, string][] , price 
     return <div>
         <TableHeader />
         {asks && <AskTable asks={asks} />}
-        {price && <div className="text-greenText">{price}</div>}
+        {price && <div className="text-sm font-semibold py-1" style={{ color: "var(--buy)" }}>{price}</div>}
         {bids && <BidTable bids={bids} />}
     </div>
 }
 function TableHeader() {
-    return <div className="flex justify-between text-xs">
-    <div className="text-white">Price</div>
-    <div className="text-slate-500">Size</div>
-    <div className="text-slate-500">Total</div>
+    return <div className="flex justify-between text-xs pb-1">
+    <div style={{ color: "var(--text-high-emphasis)" }}>Price</div>
+    <div style={{ color: "var(--text-low-emphasis)" }}>Size</div>
+    <div style={{ color: "var(--text-low-emphasis)" }}>Total</div>
 </div>
 }

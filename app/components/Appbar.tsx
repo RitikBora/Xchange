@@ -7,7 +7,7 @@ import { Button } from "./core/Button";
 import { ModeToggle } from "./mode-toggle";
 
 const navLinks = [
-    { href: "/#markets", label: "Markets" },
+    { href: "/markets", label: "Markets" },
     { href: "/#features", label: "Features" },
     { href: "/#faq", label: "FAQ" },
 ];
