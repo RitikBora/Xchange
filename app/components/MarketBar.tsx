@@ -36,13 +36,13 @@ export const MarketBar = ({market}: {market: string}) => {
             <div className="flex items-center justify-between flex-row no-scrollbar overflow-auto pr-4">
                     <Ticker market={market} />
                     <div className="flex items-center flex-row space-x-8 pl-4">
-                        <div className="flex flex-col h-full justify-center">
-                            <p className="font-medium tabular-nums text-md" style={{ color: "var(--buy)" }}>${ticker?.lastPrice}</p>
-                            <p className="font-medium text-sm text-sm tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>${ticker?.lastPrice}</p>
+                        <div className="flex flex-col">
+                            <p className="font-medium text-xs text-sm" style={{ color: "var(--text-low-emphasis)" }}>Price</p>
+                            <p className="text-sm font-medium tabular-nums leading-5 text-sm" style={{ color: "var(--text-high-emphasis)" }}>${ticker?.lastPrice}</p>
                         </div>
                         <div className="flex flex-col">
                             <p className="font-medium text-xs text-sm" style={{ color: "var(--text-low-emphasis)" }}>24H Change</p>
-                            <p className="text-sm font-medium tabular-nums leading-5 text-sm" style={{ color: Number(ticker?.priceChange) > 0 ? "var(--buy)" : "var(--sell)" }}>{Number(ticker?.priceChange) > 0 ? "+" : ""} {ticker?.priceChange} {Number(ticker?.priceChangePercent)?.toFixed(2)}%</p></div><div className="flex flex-col">
+                            <p className="text-sm font-medium tabular-nums leading-5 text-sm" style={{ color: Number(ticker?.priceChange) > 0 ? "var(--buy)" : "var(--sell)" }}>{Number(ticker?.priceChange) > 0 ? "+" : ""} {ticker?.priceChange} ({(Number(ticker?.priceChangePercent) * 100).toFixed(2)}%)</p></div><div className="flex flex-col">
                                 <p className="font-medium text-xs text-sm" style={{ color: "var(--text-low-emphasis)" }}>24H High</p>
                                 <p className="text-sm font-medium tabular-nums leading-5 text-sm" style={{ color: "var(--text-high-emphasis)" }}>{ticker?.high}</p>
                                 </div>
