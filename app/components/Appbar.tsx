@@ -9,7 +9,6 @@ import { ModeToggle } from "./mode-toggle";
 const navLinks = [
     { href: "/#markets", label: "Markets" },
     { href: "/#features", label: "Features" },
-    { href: "/#pricing", label: "Pricing" },
     { href: "/#faq", label: "FAQ" },
 ];
 
@@ -31,8 +30,7 @@ export const Appbar = () => {
         >
             <nav
                 style={{
-                    maxWidth: "var(--lp-maxw, 1240px)",
-                    margin: "0 auto",
+                    width: "100%",
                     padding: "0 var(--lp-pad, 88px)",
                     height: 68,
                     display: "flex",
@@ -51,7 +49,7 @@ export const Appbar = () => {
                         alignItems: "center",
                     }}
                 >
-                    <span style={{ color: "var(--accent)" }}>X</span>
+                    <span style={{ color: "#16A34A" }}>X</span>
                     <span style={{ color: "var(--text-high-emphasis)" }}>change</span>
                 </Link>
                 <div style={{ display: "var(--lp-navlinks)", alignItems: "center", gap: 6 }}>

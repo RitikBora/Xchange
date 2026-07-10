@@ -37,7 +37,6 @@ export default function Home() {
       <FeaturesBento />
       <HowItWorks />
       <MarketsPreviewSection />
-      <Pricing />
       <Testimonials />
       <FAQ />
       <FinalCTA />
@@ -55,16 +54,9 @@ const sectionStyle: React.CSSProperties = {
 const Hero = () => {
   const router = useRouter();
   return (
-    <section style={{ ...sectionStyle, paddingTop: "clamp(48px,7vw,96px)", paddingBottom: "var(--lp-sec)" }}>
-      <div className="grid items-center" style={{ gridTemplateColumns: "var(--lp-hero-cols)", gap: "var(--lp-hero-gap)" }}>
+    <section style={{ width: "100%", padding: "clamp(70px,10vw,100px) var(--lp-pad) var(--lp-sec)" }}>
+      <div className="grid items-center" style={{ gridTemplateColumns: "0.8fr 1.0fr", gap: "var(--lp-hero-gap)" }}>
         <div>
-          <Reveal
-            className="inline-flex items-center gap-2 mb-6"
-            style={{ padding: "6px 12px 6px 8px", borderRadius: 9999, border: "1px solid var(--border-hairline)", background: "var(--surface-card)" }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full animate-[lp-pulse_1.6s_ease-in-out_infinite]" style={{ background: "var(--buy)" }} />
-            <span className="text-[0.74rem] font-semibold tracking-wide uppercase" style={{ color: "var(--text-med-emphasis)" }}>Live market data · Backpack</span>
-          </Reveal>
           <h1 className="m-0 font-extrabold" style={{ fontSize: "var(--lp-display)", lineHeight: 0.98, letterSpacing: "-0.03em" }}>
             <Reveal className="block" style={{ color: "var(--text-high-emphasis)" }} delay={0.05}>Look First.</Reveal>
             <Reveal className="block" style={{ color: "var(--text-high-emphasis)" }} delay={0.18}>Then <span style={{ color: "var(--accent)" }}>Leap.</span></Reveal>
@@ -284,84 +276,6 @@ const MarketsPreviewSection = () => {
   );
 };
 
-const tiers = [
-  {
-    name: "Explorer", price: "Free", sub: "For the crypto-curious",
-    features: ["Real-time market screener", "Live charts & order books", "Up to 5 watchlists"],
-    cta: "Get started", featured: false,
-  },
-  {
-    name: "Trader", price: "$19", per: "/mo", sub: "For active traders",
-    features: ["Everything in Explorer", "Unlimited smart alerts", "Full-depth order book", "Advanced chart tools"],
-    cta: "Start trading", featured: true,
-  },
-  {
-    name: "Pro", price: "$99", per: "/mo", sub: "For quants & desks",
-    features: ["Everything in Trader", "REST & WebSocket API access", "Low-latency co-located feeds", "Priority support"],
-    cta: "Contact sales", featured: false,
-  },
-];
-
-const Pricing = () => {
-  const router = useRouter();
-  return (
-    <section id="pricing" style={{ borderTop: "1px solid var(--border-hairline)", background: "var(--surface-card)" }}>
-      <div style={{ ...sectionStyle, paddingTop: "var(--lp-sec)", paddingBottom: "var(--lp-sec)" }}>
-        <Reveal className="text-center mb-14">
-          <div className="text-[0.78rem] font-semibold tracking-widest uppercase mb-3.5" style={{ color: "var(--accent)" }}>Pricing</div>
-          <h2 className="m-0 leading-tight tracking-tight font-extrabold" style={{ fontSize: "var(--lp-h2)", color: "var(--text-high-emphasis)" }}>Start free. Scale when you&apos;re ready.</h2>
-        </Reveal>
-        <div className="grid gap-5 items-stretch" style={{ gridTemplateColumns: "var(--lp-price-cols)" }}>
-          {tiers.map((t, i) => (
-            <Reveal
-              key={t.name}
-              delay={i * 0.08}
-              className="relative flex flex-col"
-              style={{
-                borderRadius: 16,
-                background: "var(--bg-base)",
-                padding: 32,
-                border: t.featured ? "1px solid var(--accent)" : "1px solid var(--border-hairline)",
-                boxShadow: t.featured ? "var(--shadow-overlay)" : "none",
-              }}
-            >
-              {t.featured && (
-                <div
-                  className="absolute -top-[11px] left-8 px-3 py-1 rounded-full text-[0.68rem] font-bold tracking-wide uppercase"
-                  style={{ background: "var(--accent)", color: "#062b26" }}
-                >Most popular</div>
-              )}
-              <div className="text-lg font-bold" style={{ color: "var(--text-high-emphasis)" }}>{t.name}</div>
-              <div className="mt-3.5 mb-1 flex items-baseline gap-1">
-                <span className="text-[2.6rem] font-extrabold tracking-tight" style={{ color: "var(--text-high-emphasis)" }}>{t.price}</span>
-                {t.per && <span className="text-sm" style={{ color: "var(--text-low-emphasis)" }}>{t.per}</span>}
-              </div>
-              <div className="text-[0.85rem] mb-6" style={{ color: "var(--text-low-emphasis)" }}>{t.sub}</div>
-              <div className="flex flex-col gap-3 flex-1">
-                {t.features.map(f => (
-                  <div key={f} className="flex gap-2.5 items-start text-[0.92rem]" style={{ color: "var(--text-med-emphasis)" }}>
-                    <span className="shrink-0 mt-0.5" style={{ color: "var(--accent)" }}>✓</span>{f}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-7">
-                <Button
-                  variant={t.featured ? "success" : "primary"}
-                  size="md"
-                  fullWidth
-                  onClick={() => router.push(t.featured ? "/trade/SOL_USDC" : "/markets")}
-                >
-                  {t.cta}
-                </Button>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const testimonials = [
   { quote: "I finally understand what I’m looking at before I buy. The screener made crypto make sense.", name: "Maya Chen", role: "New to crypto", initial: "M" },
   { quote: "The order book actually makes sense here — depth, spread, size, all readable at a glance.", name: "Dario Neri", role: "Swing trader", initial: "D" },
@@ -468,7 +382,7 @@ const Footer = () => (
   <footer style={{ borderTop: "1px solid var(--border-hairline)" }}>
     <div className="flex flex-wrap gap-8 items-start justify-between" style={{ ...sectionStyle, paddingTop: 52, paddingBottom: 52 }}>
       <div className="max-w-[280px]">
-        <div className="text-xl font-extrabold tracking-tight"><span style={{ color: "var(--accent)" }}>X</span><span style={{ color: "var(--text-high-emphasis)" }}>change</span></div>
+        <div className="text-xl font-extrabold tracking-tight" style={{ color: "var(--text-high-emphasis)" }}>Xchange</div>
         <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-low-emphasis)" }}>A real-time crypto screener &amp; trading terminal built on Backpack Exchange data.</p>
       </div>
       <div className="flex gap-14 flex-wrap">
@@ -476,7 +390,6 @@ const Footer = () => (
           <div className="text-xs uppercase tracking-wide mb-1" style={{ color: "var(--text-low-emphasis)" }}>Product</div>
           <a href="/#markets" className="text-sm" style={{ color: "var(--text-med-emphasis)" }}>Markets</a>
           <a href="/#features" className="text-sm" style={{ color: "var(--text-med-emphasis)" }}>Features</a>
-          <a href="/#pricing" className="text-sm" style={{ color: "var(--text-med-emphasis)" }}>Pricing</a>
         </div>
         <div className="flex flex-col gap-2.5">
           <div className="text-xs uppercase tracking-wide mb-1" style={{ color: "var(--text-low-emphasis)" }}>Company</div>
