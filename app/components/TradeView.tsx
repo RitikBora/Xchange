@@ -1,7 +1,9 @@
+"use client";
 import { useEffect, useRef } from "react";
 import { ChartManager } from "../utils/ChartManager";
 import { getKlines } from "../utils/httpClient";
 import { KLine } from "../utils/types";
+import { useTheme } from "./theme-provider";
 
 export function TradeView({
   market,
@@ -10,12 +12,13 @@ export function TradeView({
 }) {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartManagerRef = useRef<ChartManager>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const init = async () => {
       let klineData: KLine[] = [];
       try {
-        klineData = await getKlines(market, "1h", Math.floor((new Date().getTime() - 1000 * 60 * 60 * 24 * 7) / 1000), Math.floor(new Date().getTime() / 1000)); 
+        klineData = await getKlines(market, "1h", Math.floor((new Date().getTime() - 1000 * 60 * 60 * 24 * 7) / 1000), Math.floor(new Date().getTime() / 1000));
       } catch (e) { }
 
       if (chartRef) {
@@ -23,6 +26,7 @@ export function TradeView({
           chartManagerRef.current.destroy();
         }
         console.log(klineData)
+        const isDark = theme === "dark";
         const chartManager = new ChartManager(
           chartRef.current,
           [
@@ -31,12 +35,12 @@ export function TradeView({
               high: parseFloat(x.high),
               low: parseFloat(x.low),
               open: parseFloat(x.open),
-              timestamp: new Date(x.end), 
+              timestamp: new Date(x.end),
             })),
           ].sort((x, y) => (x.timestamp < y.timestamp ? -1 : 1)) || [],
           {
-            background: "#0e0f14",
-            color: "white",
+            background: isDark ? "#0e0f14" : "#ffffff",
+            color: isDark ? "white" : "#0f172a",
           }
         );
         //@ts-ignore
@@ -44,7 +48,7 @@ export function TradeView({
       }
     };
     init();
-  }, [market, chartRef]);
+  }, [market, chartRef, theme]);
 
   return (
     <>
