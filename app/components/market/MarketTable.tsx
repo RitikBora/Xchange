@@ -24,10 +24,10 @@ export const MarketTable= () =>
 
                 marketdata.forEach(m => marketDataMap.set(m.symbol.toLowerCase(), m));
 
-                const updatedMarkets: Market[] = tickers.reduce<Market[]>((acc, ticker) => {
+                const updatedMarkets: Market[] = tickers.filter(ticker => !ticker.symbol.endsWith("_PERP")).reduce<Market[]>((acc, ticker) => {
                     const symbol = ticker.symbol.split("_")[0].toLowerCase();
                     const marketData = marketDataMap.get(symbol);
-                
+
                     if (marketData) {
                         const { name, symbol, image, market_cap } = marketData;
                         const { lastPrice: last_price, priceChangePercent, volume, quoteVolume } = ticker;
@@ -79,7 +79,7 @@ export const MarketTable= () =>
                     <th className="px-2 py-3 w-1/6 text-left text-xl font-normal text-baseTextMedEmphasis ">
                         <div className="flex items-center gap-1 cursor-pointer select-none">
                             Market Cap
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-down h-4 w-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-down h-4 w-4">
                                 <path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path>
                             </svg>
                         </div>
@@ -102,13 +102,13 @@ export const MarketTable= () =>
                {
                 loading ? <>
                      {Array.from({ length: 8}).map((_, index) => (
-                    <SkeletonRow/>
+                    <SkeletonRow key={index}/>
                     ))}
                 </>:
                 <>
                     {market.map((coin : Market) =>
                     {
-                        return <MarketRow price={coin.lastPrice} symbol={coin.symbol}  name = {coin.name}  market_cap ={coin.market_cap}  quoteVolume= {coin.quoteVolume} image = {coin.image} priceChangePercent = {coin.priceChangePercent} marketSymbol = {coin.marketSymbol} router = {router}/>
+                        return <MarketRow key={coin.marketSymbol} price={coin.lastPrice} symbol={coin.symbol}  name = {coin.name}  market_cap ={coin.market_cap}  quoteVolume= {coin.quoteVolume} image = {coin.image} priceChangePercent = {coin.priceChangePercent} marketSymbol = {coin.marketSymbol} router = {router}/>
                     })}
                 </>
                }
@@ -158,13 +158,26 @@ function MarketRow({price , symbol , name , market_cap , image , priceChangePerc
 function SkeletonRow() {
     return (
         <tr>
-          
-            <td className="px-2 py-3 w-1/6">
-                <Skeleton className="w-full h-[35px] rounded-xl bg-neutral-700 animate-pulse" />
+            <td className="px-2 py-3">
+                <div className="flex items-center">
+                    <Skeleton className="rounded-full bg-neutral-700 animate-pulse w-10 h-10 shrink-0" />
+                    <div className="ml-4 flex flex-col gap-2">
+                        <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-24 h-4" />
+                        <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-12 h-3" />
+                    </div>
+                </div>
             </td>
-            
-            <td className="px-2 py-3 w-5/6" colSpan={4}>
-                <Skeleton className="w-full h-[35px] rounded-xl bg-neutral-700 animate-pulse" />
+            <td className="px-2 py-3">
+                <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-16 h-4" />
+            </td>
+            <td className="px-2 py-3">
+                <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-16 h-4" />
+            </td>
+            <td className="px-2 py-3">
+                <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-16 h-4" />
+            </td>
+            <td className="px-2 py-3">
+                <Skeleton className="rounded-md bg-neutral-700 animate-pulse w-14 h-4" />
             </td>
         </tr>
     );

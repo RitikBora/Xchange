@@ -1,0 +1,32 @@
+/* ============================================================
+   Xchange — Radius, elevation & motion tokens
+   Source: --radius 0.5rem; rounded-lg/xl on controls, rounded-full
+   on chips & coin avatars. Motion via framer-motion (smooth fades,
+   staggered rise). Depth bars ease width 0.3s.
+   ============================================================ */
+
+:root {
+  /* Radii */
+  --radius-sm: 4px;      /* calc(radius - 4px) */
+  --radius-md: 6px;      /* calc(radius - 2px) */
+  --radius-lg: 8px;      /* --radius 0.5rem — inputs, buttons, panels */
+  --radius-xl: 12px;     /* buy/sell action buttons (rounded-xl) */
+  --radius-full: 9999px; /* pills, coin avatars */
+
+  /* Elevation — trading UIs stay flat; borders do the separating.
+     Reserve shadow for overlays (toasts, popovers). */
+  --shadow-none: none;
+  --shadow-overlay: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-focus: 0 0 0 1px var(--accent-active);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 0.15s;   /* hover / opacity */
+  --dur-med: 0.3s;     /* depth-bar width */
+  --dur-slow: 0.7s;    /* hero entrance rise */
+
+  /* Interaction */
+  --hover-opacity: 0.8;   /* hover:opacity-80 */
+  --press-scale: 0.98;    /* active:scale-98 */
+}

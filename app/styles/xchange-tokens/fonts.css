@@ -1,0 +1,7 @@
+/* ============================================================
+   Xchange — Webfonts
+   Inter (UI + numbers via tabular-nums). Binance-standard.
+   The app already self-hosts Inter via next/font/google on <body>
+   (app/layout.tsx); --font-sans below just names it for components
+   that set font-family explicitly, falling back to system fonts.
+   ============================================================ */

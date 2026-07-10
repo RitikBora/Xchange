@@ -1,0 +1,81 @@
+/* ============================================================
+   Xchange — Color tokens
+   Palette A: slate navy + teal. Base values then semantic aliases.
+   Green/red buy-sell + accent blue for active states come from the
+   Binance-style trading UI in the source codebase.
+   ============================================================ */
+
+:root {
+  /* ---- Base neutrals (slate navy ramp) ---- */
+  --navy-900: #0F172A;   /* page background */
+  --navy-850: #141E33;
+  --navy-800: #1A2438;   /* panel / card surface */
+  --navy-700: #243049;   /* chip / hover surface */
+  --navy-600: #2E3B57;   /* pressed / higher hover */
+  --slate-800: #1E293B;  /* hairline borders */
+  --slate-700: #334155;
+  --slate-500: #64748B;  /* low-emphasis text */
+
+  /* ---- Text ramp ---- */
+  --white: #F4F4F6;
+  --text-med: #969FAF;   /* baseTextMedEmphasis */
+
+  /* ---- Brand + semantic hues ---- */
+  --teal-500: #14B8A6;   /* brand accent */
+  --teal-400: #2DD4BF;
+  --blue-500: #4C94FF;   /* active tab / nav highlight (accentBlue) */
+  --green-500: #22C55E;  /* buy / up */
+  --green-600: #16A34A;
+  --red-500: #EF4444;    /* sell / down */
+  --red-600: #DC2626;
+
+  /* Translucent state fills (from source) */
+  --green-fill: rgba(34, 197, 94, 0.12);
+  --red-fill: rgba(239, 68, 68, 0.12);
+  --blue-fill: rgba(76, 148, 255, 0.16);
+  --green-fill-strong: rgba(34, 197, 94, 0.325);
+  --red-fill-strong: rgba(239, 68, 68, 0.325);
+
+  /* ============================================================
+     Semantic aliases — reference these in components
+     ============================================================ */
+  --bg-base: var(--navy-900);
+  --surface-card: var(--navy-800);
+  --surface-elevated: var(--navy-700);
+  --surface-hover: var(--navy-600);
+
+  --text-high-emphasis: var(--white);
+  --text-med-emphasis: var(--text-med);
+  --text-low-emphasis: var(--slate-500);
+
+  --border-hairline: var(--slate-800);
+  --border-med: var(--slate-700);
+
+  --accent: var(--teal-500);
+  --accent-active: var(--blue-500);
+
+  --buy: var(--green-500);
+  --buy-text: var(--green-500);
+  --buy-solid: var(--green-500);
+  --buy-solid-text: #0B1F14;
+  --buy-surface: var(--green-fill);
+  --buy-depth: var(--green-fill-strong);
+  --buy-border: rgba(34, 197, 94, 0.40);
+
+  --sell: var(--red-500);
+  --sell-text: var(--red-500);
+  --sell-solid: var(--red-500);
+  --sell-solid-text: #1F0B0B;
+  --sell-surface: var(--red-fill);
+  --sell-depth: var(--red-fill-strong);
+  --sell-border: rgba(239, 68, 68, 0.50);
+
+  --link: var(--teal-500);
+  --link-hover: var(--teal-400);
+}
+
+[data-theme="light"] {
+  --bg-base: #F5F7FB; --surface-card: #FFFFFF; --surface-elevated: #EEF2F8; --surface-hover: #E3E9F2;
+  --text-high-emphasis: #0F172A; --text-med-emphasis: #4A5568; --text-low-emphasis: #7C8AA0;
+  --border-hairline: #E4E9F1; --border-med: #CBD5E1;
+}

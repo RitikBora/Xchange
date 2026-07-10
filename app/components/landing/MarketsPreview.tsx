@@ -15,6 +15,7 @@ function formatMarketCap(num: number) {
 
 export const MarketsPreview = () => {
     const [markets, setMarkets] = useState<Market[]>([]);
+    const [hovered, setHovered] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -23,16 +24,18 @@ export const MarketsPreview = () => {
                 const [marketdata, tickers] = await Promise.all([getMarketData(), getTickers()]);
                 const marketDataMap = new Map(marketdata.map(m => [m.symbol.toLowerCase(), m]));
 
-                const updatedMarkets: Market[] = tickers.reduce<Market[]>((acc, ticker) => {
-                    const symbol = ticker.symbol.split("_")[0].toLowerCase();
-                    const marketData = marketDataMap.get(symbol);
-                    if (marketData) {
-                        const { name, symbol, image, market_cap } = marketData;
-                        const { lastPrice, priceChangePercent, quoteVolume } = ticker;
-                        acc.push({ name, symbol, image, market_cap, lastPrice, priceChangePercent, marketSymbol: ticker.symbol, quoteVolume });
-                    }
-                    return acc;
-                }, []);
+                const updatedMarkets: Market[] = tickers
+                    .filter(ticker => !ticker.symbol.endsWith("_PERP"))
+                    .reduce<Market[]>((acc, ticker) => {
+                        const symbol = ticker.symbol.split("_")[0].toLowerCase();
+                        const marketData = marketDataMap.get(symbol);
+                        if (marketData) {
+                            const { name, symbol, image, market_cap } = marketData;
+                            const { lastPrice, priceChangePercent, quoteVolume } = ticker;
+                            acc.push({ name, symbol, image, market_cap, lastPrice, priceChangePercent, marketSymbol: ticker.symbol, quoteVolume });
+                        }
+                        return acc;
+                    }, []);
 
                 updatedMarkets.sort((a, b) => b.market_cap - a.market_cap);
                 setMarkets(updatedMarkets.slice(0, 6));
@@ -44,8 +47,11 @@ export const MarketsPreview = () => {
     }, []);
 
     return (
-        <div className="border border-slate-800 rounded-xl bg-[#1A2438] overflow-hidden">
-            <div className="grid grid-cols-[2.4fr_1.2fr_1.2fr_1fr] px-6 py-3.5 border-b border-slate-800 text-[0.7rem] uppercase tracking-wide text-slate-500">
+        <div style={{ border: "1px solid var(--border-hairline)", borderRadius: 14, background: "var(--surface-card)", overflow: "hidden" }}>
+            <div
+                className="grid px-6 py-3.5 text-[0.7rem] uppercase tracking-wide"
+                style={{ gridTemplateColumns: "2.4fr 1.2fr 1.2fr 1fr", borderBottom: "1px solid var(--border-hairline)", color: "var(--text-low-emphasis)" }}
+            >
                 <div>Name</div>
                 <div className="text-right">Price</div>
                 <div className="text-right">Market Cap</div>
@@ -53,26 +59,38 @@ export const MarketsPreview = () => {
             </div>
             {markets.length === 0
                 ? Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="px-6 py-4 border-b border-slate-800 last:border-b-0">
-                        <div className="h-5 rounded bg-slate-800 animate-pulse w-2/3" />
+                    <div key={i} className="px-6 py-4 flex items-center gap-3" style={{ borderBottom: "1px solid var(--border-hairline)" }}>
+                        <div className="rounded-full animate-pulse shrink-0" style={{ width: 30, height: 30, background: "var(--surface-elevated)" }} />
+                        <div className="flex flex-col gap-1.5 flex-1">
+                            <div className="h-3.5 rounded animate-pulse" style={{ width: "40%", background: "var(--surface-elevated)" }} />
+                            <div className="h-2.5 rounded animate-pulse" style={{ width: "20%", background: "var(--surface-elevated)" }} />
+                        </div>
                     </div>
                 ))
                 : markets.map((c) => (
                     <div
                         key={c.marketSymbol}
                         onClick={() => router.push(`/trade/${c.marketSymbol}`)}
-                        className="grid grid-cols-[2.4fr_1.2fr_1.2fr_1fr] items-center px-6 py-3.5 border-b border-slate-800 last:border-b-0 cursor-pointer hover:bg-[#243049] transition-colors"
+                        onMouseEnter={() => setHovered(c.marketSymbol)}
+                        onMouseLeave={() => setHovered(null)}
+                        className="grid items-center px-6 py-3.5 cursor-pointer"
+                        style={{
+                            gridTemplateColumns: "2.4fr 1.2fr 1.2fr 1fr",
+                            borderBottom: "1px solid var(--border-hairline)",
+                            background: hovered === c.marketSymbol ? "var(--surface-elevated)" : "transparent",
+                            transition: "background .15s var(--ease-in-out)",
+                        }}
                     >
                         <div className="flex items-center gap-3">
                             <img src={c.image} width={30} height={30} className="rounded-full object-cover" alt={c.name} />
                             <div>
-                                <div className="text-sm font-semibold text-baseTextHighEmphasis">{c.name}</div>
-                                <div className="text-xs text-slate-500">{c.symbol.toUpperCase()}</div>
+                                <div className="text-sm font-semibold" style={{ color: "var(--text-high-emphasis)" }}>{c.name}</div>
+                                <div className="text-xs" style={{ color: "var(--text-low-emphasis)" }}>{c.symbol.toUpperCase()}</div>
                             </div>
                         </div>
-                        <div className="text-right text-sm font-medium tabular-nums text-baseTextHighEmphasis">${c.lastPrice}</div>
-                        <div className="text-right text-sm tabular-nums text-baseTextMedEmphasis">{formatMarketCap(c.market_cap)}</div>
-                        <div className={`text-right text-sm font-medium tabular-nums ${Number(c.priceChangePercent) < 0 ? "text-red-500" : "text-green-500"}`}>
+                        <div className="text-right text-sm font-medium tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>${c.lastPrice}</div>
+                        <div className="text-right text-sm tabular-nums" style={{ color: "var(--text-med-emphasis)" }}>{formatMarketCap(c.market_cap)}</div>
+                        <div className="text-right text-sm font-medium tabular-nums" style={{ color: Number(c.priceChangePercent) < 0 ? "var(--sell)" : "var(--buy)" }}>
                             {Number(c.priceChangePercent) < 0 ? "" : "+"}{(Number(c.priceChangePercent) * 100).toFixed(2)}%
                         </div>
                     </div>

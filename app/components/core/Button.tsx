@@ -1,23 +1,131 @@
+"use client";
+
+import { useState } from "react";
+
+type ButtonVariant = "primary" | "success" | "buy" | "sell" | "ghost";
+type ButtonSize = "sm" | "md" | "lg";
+
 type ButtonProps = {
-    children: string;
+    children: React.ReactNode;
+    variant?: ButtonVariant;
+    size?: ButtonSize;
+    fullWidth?: boolean;
+    disabled?: boolean;
     onClick?: () => void;
+    type?: "button" | "submit" | "reset";
+    style?: React.CSSProperties;
     className?: string;
-    textSize?: string;
 };
 
-export const PrimaryButton = ({ children, onClick, className = "h-[60px] w-[128px]", textSize = "1.3rem" }: ButtonProps) => {
-    return <button type="button" className={`text-center font-semibold rounded-lg focus:ring-blue-200 focus:none focus:outline-none hover:opacity-90 disabled:opacity-80 disabled:hover:opacity-80 relative overflow-hidden px-3 py-1.5 mr-4 ${className}`} onClick={onClick} style={{fontSize : textSize}}>
-        <div className="absolute inset-0 bg-blue-500 opacity-[16%]"></div>
-        <div className="flex flex-row items-center justify-center gap-4"><p className="text-blue-500">{children}</p></div>
-    </button>
+const SIZES: Record<ButtonSize, React.CSSProperties> = {
+    sm: { height: 36, padding: "0 14px", fontSize: "var(--fs-sm)" },
+    md: { height: "var(--h-button)", padding: "0 20px", fontSize: "var(--fs-base)" },
+    lg: { height: "var(--h-button-lg)", padding: "0 28px", fontSize: "1.3rem" },
+};
 
+const TRANSLUCENT: Record<string, { fill: string; text: string }> = {
+    primary: { fill: "var(--accent-active)", text: "var(--accent-active)" },
+    success: { fill: "var(--buy)", text: "var(--buy)" },
+};
+
+const SOLID: Record<string, { bg: string; text: string }> = {
+    buy: { bg: "var(--buy-solid)", text: "var(--buy-solid-text)" },
+    sell: { bg: "var(--sell-solid)", text: "var(--sell-solid-text)" },
+};
+
+export function Button({
+    children,
+    variant = "primary",
+    size = "md",
+    fullWidth = false,
+    disabled = false,
+    onClick,
+    type = "button",
+    style,
+    className,
+}: ButtonProps) {
+    const [pressed, setPressed] = useState(false);
+    const [hovered, setHovered] = useState(false);
+
+    const base: React.CSSProperties = {
+        position: "relative",
+        overflow: "hidden",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        width: fullWidth ? "100%" : "auto",
+        borderRadius: variant === "buy" || variant === "sell" ? "var(--radius-xl)" : "var(--radius-lg)",
+        border: "none",
+        fontFamily: "var(--font-sans)",
+        fontWeight: "var(--fw-semibold)",
+        lineHeight: 1,
+        cursor: disabled ? "not-allowed" : "pointer",
+        transition: "opacity var(--dur-fast) var(--ease-in-out), transform var(--dur-fast) var(--ease-in-out)",
+        transform: pressed ? "scale(var(--press-scale))" : "scale(1)",
+        ...SIZES[size],
+        ...style,
+    };
+
+    if (variant === "buy" || variant === "sell") {
+        const s = SOLID[variant];
+        return (
+            <button
+                type={type}
+                disabled={disabled}
+                onClick={onClick}
+                className={className}
+                style={{ ...base, background: s.bg, color: s.text, opacity: disabled ? 0.5 : 1 }}
+                onMouseDown={() => !disabled && setPressed(true)}
+                onMouseUp={() => setPressed(false)}
+                onMouseLeave={() => setPressed(false)}
+            >
+                {children}
+            </button>
+        );
+    }
+
+    if (variant === "ghost") {
+        return (
+            <button
+                type={type}
+                disabled={disabled}
+                onClick={onClick}
+                className={className}
+                style={{
+                    ...base,
+                    background: "transparent",
+                    color: hovered && !disabled ? "var(--text-high-emphasis)" : "var(--text-med-emphasis)",
+                    opacity: disabled ? 0.5 : 1,
+                }}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+            >
+                {children}
+            </button>
+        );
+    }
+
+    const t = TRANSLUCENT[variant] || TRANSLUCENT.primary;
+    return (
+        <button
+            type={type}
+            disabled={disabled}
+            onClick={onClick}
+            className={className}
+            style={{
+                ...base,
+                background: "transparent",
+                color: t.text,
+                opacity: disabled ? 0.5 : hovered ? 0.9 : 1,
+            }}
+            onMouseEnter={() => !disabled && setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+        >
+            <span style={{ position: "absolute", inset: 0, background: t.fill, opacity: 0.16 }} />
+            <span style={{ position: "relative", display: "inline-flex", alignItems: "center", gap: 8 }}>
+                {children}
+            </span>
+        </button>
+    );
 }
-
-export const SuccessButton = ({ children, onClick, className = "h-[60px] w-[220px]", textSize = "1.3rem" }: ButtonProps) => {
-    return <button type="button" className={`text-center font-semibold rounded-lg focus:ring-green-200 focus:none focus:outline-none hover:opacity-90 disabled:opacity-80 disabled:hover:opacity-80 relative overflow-hidden px-3 py-1.5 mr-4 ${className}`}
-    onClick={onClick} style={{fontSize : textSize}}>
-        <div className="absolute inset-0 bg-green-500 opacity-[16%]"></div>
-        <div className="flex flex-row items-center justify-center gap-4"><p className="text-green-500">{children}</p></div>
-    </button>
-
-} 

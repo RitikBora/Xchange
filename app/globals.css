@@ -1,29 +1,63 @@
+@import "./styles/xchange-tokens/fonts.css";
+@import "./styles/xchange-tokens/colors.css";
+@import "./styles/xchange-tokens/typography.css";
+@import "./styles/xchange-tokens/spacing.css";
+@import "./styles/xchange-tokens/effects.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  background: #0e0f14;
-}
 
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
+@keyframes lp-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .35; transform: scale(.8); }
+}
+
+:root {
+  --lp-pad: 88px;
+  --lp-sec: 128px;
+  --lp-maxw: 1240px;
+  --lp-display: 5.4rem;
+  --lp-h2: 2.7rem;
+  /* Deliberately wider than the source comp's 1.04fr/0.96fr split — requested tweak. */
+  --lp-hero-cols: 0.92fr 1.08fr;
+  --lp-hero-gap: 56px;
+  --lp-bento-cols: repeat(4, 1fr);
+  --lp-b1c: span 2; --lp-b1r: span 2;
+  --lp-b2c: span 2; --lp-b2r: span 1;
+  --lp-b3c: span 1; --lp-b3r: span 1;
+  --lp-b4c: span 1; --lp-b4r: span 1;
+  --lp-b5c: span 2; --lp-b5r: span 1;
+  --lp-price-cols: repeat(3, 1fr);
+  --lp-step-cols: repeat(3, 1fr);
+  --lp-test-cols: repeat(3, 1fr);
+  --lp-navlinks: flex;
+}
+@media (max-width: 1024px) {
+  :root {
+    --lp-pad: 44px; --lp-sec: 96px; --lp-display: 4rem; --lp-h2: 2.2rem;
+    --lp-hero-cols: 1fr; --lp-hero-gap: 40px;
+    --lp-bento-cols: repeat(2, 1fr);
+    --lp-b1c: span 2; --lp-b1r: span 1; --lp-b2c: span 2; --lp-b5c: span 2;
+    --lp-price-cols: repeat(3, 1fr); --lp-step-cols: repeat(3, 1fr); --lp-test-cols: repeat(1, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  :root {
+    --lp-pad: 20px; --lp-sec: 68px; --lp-display: 2.95rem; --lp-h2: 1.85rem;
+    --lp-hero-cols: 1fr; --lp-hero-gap: 32px;
+    --lp-bento-cols: repeat(1, 1fr);
+    --lp-b1c: span 1; --lp-b2c: span 1; --lp-b5c: span 1;
+    --lp-price-cols: 1fr; --lp-step-cols: 1fr; --lp-test-cols: 1fr;
+    --lp-navlinks: none;
+  }
+}
+
 
 @layer utilities {
   .text-balance {
@@ -92,6 +126,10 @@ body {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    background: var(--bg-base);
+    color: var(--text-high-emphasis);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.4s var(--ease-in-out), color 0.4s var(--ease-in-out);
   }
 }

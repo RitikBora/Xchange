@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "@/app/components/theme-provider";
 
 type Candle = { o: number; h: number; l: number; c: number };
 
@@ -8,6 +9,9 @@ export const LiveChartPreview = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [price, setPrice] = useState(177.68);
     const [change, setChange] = useState(3.8);
+    const { theme } = useTheme();
+    const themeRef = useRef(theme);
+    themeRef.current = theme;
 
     useEffect(() => {
         const cv = canvasRef.current;
@@ -47,6 +51,7 @@ export const LiveChartPreview = () => {
         const draw = () => {
             if (!cw || !ch) return;
             ctx.clearRect(0, 0, cw, ch);
+            const light = themeRef.current === "light";
             const pad = { t: 18, b: 18, l: 8, r: 58 };
             let mn = Infinity, mx = -Infinity;
             cs.forEach(k => { mn = Math.min(mn, k.l); mx = Math.max(mx, k.h); });
@@ -55,8 +60,8 @@ export const LiveChartPreview = () => {
             const X = cw - pad.l - pad.r, Y = ch - pad.t - pad.b;
             const yfor = (v: number) => pad.t + (1 - (v - mn) / (mx - mn)) * Y;
 
-            ctx.strokeStyle = "rgba(148,163,184,0.10)";
-            ctx.fillStyle = "rgba(150,159,175,0.55)";
+            ctx.strokeStyle = light ? "rgba(15,23,42,0.06)" : "rgba(148,163,184,0.10)";
+            ctx.fillStyle = light ? "rgba(15,23,42,0.32)" : "rgba(150,159,175,0.55)";
             ctx.lineWidth = 1;
             ctx.font = "10px Inter, sans-serif";
             ctx.textAlign = "left";
@@ -125,41 +130,44 @@ export const LiveChartPreview = () => {
     }, []);
 
     return (
-        <div className="border border-slate-800 rounded-xl bg-[#1A2438] overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
-            <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-800">
+        <div style={{ border: "1px solid var(--border-hairline)", borderRadius: 14, background: "var(--surface-card)", overflow: "hidden", boxShadow: "var(--shadow-overlay)" }}>
+            <div className="flex items-center justify-between px-4 py-3.5" style={{ borderBottom: "1px solid var(--border-hairline)" }}>
                 <div className="flex items-center gap-2.5">
                     <img src="/sol.webp" width={26} height={26} className="rounded-full" alt="SOL" />
                     <div>
-                        <div className="text-sm font-semibold text-baseTextHighEmphasis">SOL / USDC</div>
-                        <div className="text-[0.7rem] text-slate-500">Solana</div>
+                        <div className="text-sm font-semibold" style={{ color: "var(--text-high-emphasis)" }}>SOL / USDC</div>
+                        <div className="text-[0.7rem]" style={{ color: "var(--text-low-emphasis)" }}>Solana</div>
                     </div>
                 </div>
                 <div className="text-right">
-                    <div className="text-[1.15rem] font-bold text-baseTextHighEmphasis tabular-nums">${price.toFixed(2)}</div>
-                    <div className={`text-sm font-medium tabular-nums ${change >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    <div className="text-[1.15rem] font-bold tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>${price.toFixed(2)}</div>
+                    <div className="text-sm font-medium tabular-nums" style={{ color: change >= 0 ? "var(--buy)" : "var(--sell)" }}>
                         {change >= 0 ? "+" : ""}{change.toFixed(2)}%
                     </div>
                 </div>
             </div>
-            <div className="relative h-[320px]">
-                <div className="absolute top-3 left-3.5 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#24304980] border border-slate-800">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[0.66rem] font-semibold tracking-wide text-baseTextMedEmphasis">LIVE</span>
+            <div className="relative" style={{ height: 360 }}>
+                <div
+                    className="absolute top-3 left-3.5 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full"
+                    style={{ background: "color-mix(in srgb, var(--surface-elevated) 80%, transparent)", border: "1px solid var(--border-hairline)" }}
+                >
+                    <span className="w-1.5 h-1.5 rounded-full animate-[lp-pulse_1.6s_ease-in-out_infinite]" style={{ background: "var(--buy)" }} />
+                    <span className="text-[0.66rem] font-semibold tracking-wide" style={{ color: "var(--text-med-emphasis)" }}>LIVE</span>
                 </div>
                 <canvas ref={canvasRef} className="block w-full h-full" />
             </div>
-            <div className="flex border-t border-slate-800">
-                <div className="flex-1 px-4 py-3 border-r border-slate-800">
-                    <div className="text-[0.68rem] uppercase tracking-wide text-slate-500">24H High</div>
-                    <div className="text-sm font-semibold tabular-nums text-baseTextHighEmphasis">178.28</div>
+            <div className="flex" style={{ borderTop: "1px solid var(--border-hairline)" }}>
+                <div className="flex-1 px-4 py-3" style={{ borderRight: "1px solid var(--border-hairline)" }}>
+                    <div className="text-[0.68rem] uppercase tracking-wide" style={{ color: "var(--text-low-emphasis)" }}>24H High</div>
+                    <div className="text-sm font-semibold tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>178.28</div>
                 </div>
-                <div className="flex-1 px-4 py-3 border-r border-slate-800">
-                    <div className="text-[0.68rem] uppercase tracking-wide text-slate-500">24H Low</div>
-                    <div className="text-sm font-semibold tabular-nums text-baseTextHighEmphasis">172.97</div>
+                <div className="flex-1 px-4 py-3" style={{ borderRight: "1px solid var(--border-hairline)" }}>
+                    <div className="text-[0.68rem] uppercase tracking-wide" style={{ color: "var(--text-low-emphasis)" }}>24H Low</div>
+                    <div className="text-sm font-semibold tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>172.97</div>
                 </div>
                 <div className="flex-1 px-4 py-3">
-                    <div className="text-[0.68rem] uppercase tracking-wide text-slate-500">24H Volume</div>
-                    <div className="text-sm font-semibold tabular-nums text-baseTextHighEmphasis">9,931</div>
+                    <div className="text-[0.68rem] uppercase tracking-wide" style={{ color: "var(--text-low-emphasis)" }}>24H Volume</div>
+                    <div className="text-sm font-semibold tabular-nums" style={{ color: "var(--text-high-emphasis)" }}>9,931</div>
                 </div>
             </div>
         </div>

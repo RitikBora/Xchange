@@ -1,0 +1,29 @@
+/* ============================================================
+   Xchange — Spacing & sizing tokens
+   4px base grid (Tailwind-derived, matching the source's spacing).
+   ============================================================ */
+
+:root {
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;   /* panel padding (px-3) */
+  --space-4: 16px;   /* row / card padding */
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;  /* hero page margin (m-24) */
+
+  /* Fixed widths from the trade layout */
+  --w-orderbook: 250px;   /* depth + swap column */
+  --content-max: 1280px;  /* markets table max width */
+
+  /* Control heights */
+  --h-input: 48px;        /* h-12 */
+  --h-button: 48px;
+  --h-button-lg: 60px;    /* hero buttons / buy-sell tabs */
+  --hit-min: 44px;
+}

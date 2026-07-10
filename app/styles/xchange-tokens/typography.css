@@ -1,0 +1,40 @@
+/* ============================================================
+   Xchange — Typography tokens
+   Inter everywhere. Numeric data uses tabular-nums so columns
+   align (the source stamps `tabular-nums` on every price cell).
+   ============================================================ */
+
+:root {
+  /* Families */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Inter', ui-monospace, 'SF Mono', 'Roboto Mono', monospace; /* numeric = Inter + tabular-nums */
+
+  /* Weights */
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* Sizes — source scale: xs 0.7rem, sm 0.8rem, plus UI + display steps */
+  --fs-xs: 0.7rem;     /* 11.2px — table headers, chip labels */
+  --fs-sm: 0.8rem;     /* 12.8px — table body, tab labels */
+  --fs-base: 1rem;     /* 16px  — body */
+  --fs-md: 1.125rem;   /* 18px */
+  --fs-lg: 1.25rem;    /* 20px  — nav items */
+  --fs-xl: 1.5rem;     /* 24px  — input values */
+  --fs-2xl: 1.75rem;   /* 28px  — page titles ("Markets") */
+  --fs-3xl: 2.5rem;    /* 40px */
+  --fs-display: 5rem;  /* 80px  — hero headline ("Look First / Then Leap.") */
+
+  /* Line heights */
+  --lh-tight: 1.1;
+  --lh-snug: 1.25;
+  --lh-normal: 1.5;
+
+  /* Letter spacing */
+  --ls-tight: -0.02em;
+  --ls-normal: 0;
+
+  /* Numeric feature — apply to prices, sizes, totals, percentages */
+  --numeric: tabular-nums;
+}

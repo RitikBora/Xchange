@@ -9,12 +9,14 @@ export const CountUp = ({
     prefix = "",
     suffix = "",
     className,
+    style,
 }: {
     target: number;
     decimals?: number;
     prefix?: string;
     suffix?: string;
     className?: string;
+    style?: React.CSSProperties;
 }) => {
     const [value, setValue] = useState(0);
     const started = useRef(false);
@@ -36,6 +38,7 @@ export const CountUp = ({
     return (
         <motion.div
             className={className}
+            style={style}
             onViewportEnter={start}
             viewport={{ once: true, amount: 0.6 }}
         >
