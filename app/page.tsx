@@ -2,31 +2,45 @@
 
 import { Button } from "./components/core/Button";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useState } from "react";
 import { CountUp } from "./components/landing/CountUp";
 import { LiveChartPreview } from "./components/landing/LiveChartPreview";
 import { TickerMarquee } from "./components/landing/TickerMarquee";
 import { MarketsPreview } from "./components/landing/MarketsPreview";
+import { getScrollDirection } from "./utils/scrollDirection";
 
 const reveal = {
   hidden: { opacity: 0, y: 22 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
 };
 
-const Reveal = ({ children, delay = 0, className, style }: { children: React.ReactNode; delay?: number; className?: string; style?: React.CSSProperties }) => (
-  <motion.div
-    className={className}
-    style={style}
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true, amount: 0.15 }}
-    variants={reveal}
-    transition={{ delay }}
-  >
-    {children}
-  </motion.div>
-);
+const Reveal = ({ children, delay = 0, className, style }: { children: React.ReactNode; delay?: number; className?: string; style?: React.CSSProperties }) => {
+  const controls = useAnimation();
+  return (
+    <motion.div
+      className={className}
+      style={style}
+      initial="hidden"
+      animate={controls}
+      variants={reveal}
+      transition={{ delay }}
+      viewport={{ amount: 0.15 }}
+      onViewportEnter={() => {
+        if (getScrollDirection() === "down") {
+          controls.start("visible");
+        } else {
+          controls.set("visible");
+        }
+      }}
+      onViewportLeave={() => {
+        controls.set("hidden");
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 export default function Home() {
   return (
