@@ -130,6 +130,21 @@
     color: var(--text-high-emphasis);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    transition: background 0.4s var(--ease-in-out), color 0.4s var(--ease-in-out);
   }
+}
+
+/* View Transitions API — circular clip reveal from the toggle's click point.
+   The JS in mode-toggle.tsx drives the animation via documentElement.animate
+   targeted at the ::view-transition-new pseudo; CSS just disables the default
+   cross-fade and ensures the new snapshot paints on top. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
 }

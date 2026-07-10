@@ -54,7 +54,7 @@ const sectionStyle: React.CSSProperties = {
 const Hero = () => {
   const router = useRouter();
   return (
-    <section style={{ width: "100%", padding: "clamp(70px,10vw,100px) var(--lp-pad) var(--lp-sec)" }}>
+    <section style={{ width: "100%", padding: "clamp(70px,10vw,80px) var(--lp-pad) var(--lp-sec)" }}>
       <div className="grid items-center" style={{ gridTemplateColumns: "0.8fr 1.0fr", gap: "var(--lp-hero-gap)" }}>
         <div>
           <h1 className="m-0 font-extrabold" style={{ fontSize: "var(--lp-display)", lineHeight: 0.98, letterSpacing: "-0.03em" }}>

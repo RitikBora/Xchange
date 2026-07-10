@@ -96,9 +96,8 @@ export function ModeToggle() {
         strokeLinejoin="round"
         style={{
           position: "absolute",
-          transition: "transform .35s var(--ease-out), opacity .35s var(--ease-out)",
+          transition: "transform .35s var(--ease-out)",
           transform: isDark ? "scale(0.4) rotate(-90deg)" : "scale(1) rotate(0deg)",
-          opacity: isDark ? 0 : 1,
         }}
       >
         <circle cx="12" cy="12" r="4" />
@@ -115,9 +114,8 @@ export function ModeToggle() {
         strokeLinejoin="round"
         style={{
           position: "absolute",
-          transition: "transform .35s var(--ease-out), opacity .35s var(--ease-out)",
+          transition: "transform .35s var(--ease-out)",
           transform: isDark ? "scale(1) rotate(0deg)" : "scale(0.4) rotate(90deg)",
-          opacity: isDark ? 1 : 0,
         }}
       >
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
