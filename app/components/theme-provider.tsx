@@ -23,7 +23,13 @@ function applyThemeAttr(theme: Theme) {
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window === "undefined") return "light";
-    return (localStorage.getItem(STORAGE_KEY) as Theme) || "light";
+    // 1. explicit stored choice wins, 2. else follow the OS setting,
+    // 3. else fall back to light — kept in sync with THEME_INIT_SCRIPT.
+    const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
+    if (stored === "light" || stored === "dark") return stored;
+    return window.matchMedia?.("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
   });
 
   useEffect(() => {
