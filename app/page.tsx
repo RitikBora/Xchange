@@ -76,7 +76,6 @@ export default function Home() {
       <Testimonials />
       <FAQ />
       <FinalCTA />
-      <Footer />
     </div>
   );
 }
@@ -412,32 +411,3 @@ const FinalCTA = () => {
   );
 };
 
-const Footer = () => (
-  <footer style={{ borderTop: "1px solid var(--border-hairline)" }}>
-    <div className="flex flex-wrap gap-8 items-start justify-between" style={{ ...sectionStyle, paddingTop: 52, paddingBottom: 52 }}>
-      <div className="max-w-[280px]">
-        <div className="text-xl font-extrabold tracking-tight" style={{ color: "var(--text-high-emphasis)" }}>Xchange</div>
-        <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-low-emphasis)" }}>A real-time crypto screener &amp; trading terminal built on Backpack Exchange data.</p>
-      </div>
-      <div className="flex gap-14 flex-wrap">
-        <div className="flex flex-col gap-2.5">
-          <div className="text-xs uppercase tracking-wide mb-1" style={{ color: "var(--text-low-emphasis)" }}>Product</div>
-          <a href="/#markets" className="text-sm" style={{ color: "var(--text-med-emphasis)" }}>Markets</a>
-          <a href="/#features" className="text-sm" style={{ color: "var(--text-med-emphasis)" }}>Features</a>
-        </div>
-        <div className="flex flex-col gap-2.5">
-          <div className="text-xs uppercase tracking-wide mb-1" style={{ color: "var(--text-low-emphasis)" }}>Company</div>
-          <a href="/#top" className="text-sm" style={{ color: "var(--text-med-emphasis)" }}>About</a>
-          <a href="/#faq" className="text-sm" style={{ color: "var(--text-med-emphasis)" }}>FAQ</a>
-          <a href="/#top" className="text-sm" style={{ color: "var(--text-med-emphasis)" }}>Careers</a>
-        </div>
-      </div>
-    </div>
-    <div style={{ borderTop: "1px solid var(--border-hairline)" }}>
-      <div className="flex flex-wrap gap-3 items-center justify-between text-sm" style={{ ...sectionStyle, paddingTop: 20, paddingBottom: 20, color: "var(--text-low-emphasis)" }}>
-        <div>© {new Date().getFullYear()} Xchange.inc · CEO: Ritik Bora</div>
-        <div>Look First. Then Leap.</div>
-      </div>
-    </div>
-  </footer>
-);
